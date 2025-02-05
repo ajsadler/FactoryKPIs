@@ -1,0 +1,48 @@
+﻿@page "/linechart"
+@using BlazorBootstrap
+
+<h3>Test Line Chart</h3>
+
+<BlazorBootstrap.LineChart @ref="lineChart" Width="800" Height="400" Class="mb-4" />
+
+@code {
+    private BlazorBootstrap.LineChart? lineChart;
+    private ChartData? chartData;
+    private LineChartOptions? lineChartOptions;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && lineChart is not null)
+        {
+            await LoadChartData();
+        }
+    }
+
+    private async Task LoadChartData()
+    {
+        chartData = new ChartData
+            {
+                Labels = new List<string> { "January", "February", "March", "April", "May" },
+                Datasets = new List<IChartDataset>
+            {
+                new LineChartDataset
+                {
+                    Label = "Revenue",
+                    Data = new List<double?> { 1000, 2000, 3000, 4000, 5000 },
+                    BorderColor = "#007bff",
+                    BackgroundColor = "rgba(0, 123, 255, 0.2)",
+                    Fill = true,
+                    BorderWidth = 2
+                }
+            }
+            };
+
+        lineChartOptions = new LineChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false
+            };
+
+        await lineChart.InitializeAsync(chartData, lineChartOptions);
+    }
+}

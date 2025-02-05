@@ -1,0 +1,84 @@
+﻿@inherits LayoutComponentBase
+
+<div class="d-flex flex-column flex-md-row">
+    <div class="text-white p-3 sidebar" style="background-color: rgb(50, 86, 111); width: 250px; height: 100vh; position: relative;">
+        <div class="text-center mb-4">
+            <img src="icon.png" alt="App Logo" style="max-width: 100%; height: auto;" />
+        </div>
+
+        @* <h3 class="text-center" style="font-size: 1.75rem;">Factory KPIs</h3> *@
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <NavLink class="nav-link text-white fs-5" href="/">
+                    <i class="bi bi-house-door icon" style="font-size: 1rem;"></i> Home
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-white fs-5" href="/barchart">
+                    <i class="bi bi-bar-chart-line icon" style="font-size: 1rem;"></i> Bar Chart
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-white fs-5" href="/linechart">
+                    <i class="bi bi-graph-up icon" style="font-size: 1rem;"></i> Line Chart
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-white fs-5" href="/piechart">
+                    <i class="bi bi-pie-chart icon" style="font-size: 1rem;"></i> Pie Chart
+                </NavLink>
+            </li>
+        </ul>
+
+        <div class="mt-auto">
+            <Button Class="btn btn-danger w-100" @onclick="StopCycling">
+                <i class="bi bi-stop-circle"></i> Stop Page Cycling
+            </Button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-grow-1 p-4">
+        @Body
+    </div>
+</div>
+
+<style>
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .nav-item .nav-link, .btn {
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif, sans-serif;
+        font-weight: normal;
+    }
+
+    .nav-item .nav-link {
+        background-color: rgb(50, 86, 111);
+        border-radius: 10px;
+        padding: 7px 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        border: 2px solid white;
+    }
+
+    .nav-link:hover {
+        background-color: rgb(0, 161, 255);
+    }
+
+    .nav-link, .nav-link:hover {
+        color: white !important;
+    }
+</style>
+
+@code {
+    [Inject] NavigationManager Navigation { get; set; }
+
+    private void StopCycling()
+    {
+        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+    }
+}

@@ -1,0 +1,39 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components
+
+<PageTitle>Home</PageTitle>
+
+@* <h1>Welcome to Your New App</h1> *@
+
+<div class="button-container">
+    <Button Class="btn btn-primary btn-lg" @onclick="NavigateBarLine">Slab Line</Button>
+    <Button Class="btn btn-success btn-lg" @onclick="NavigateBarPie">Door Leaf Line</Button>
+    <Button Class="btn btn-danger btn-lg" @onclick="NavigateLinePie">Frame Line</Button>
+</div>
+
+@code {
+    [Inject] NavigationManager Navigation { get; set; }
+
+    private const int DelayTime = 10000; // 10 seconds
+
+    private async Task NavigateBarLine()
+    {
+        Navigation.NavigateTo("/barchart");
+        await Task.Delay(DelayTime); // Wait for 10 seconds
+        Navigation.NavigateTo("/linechart");
+    }
+
+    private async Task NavigateBarPie()
+    {
+        Navigation.NavigateTo("/barchart");
+        await Task.Delay(DelayTime); // Wait for 10 seconds
+        Navigation.NavigateTo("/piechart");
+    }
+
+    private async Task NavigateLinePie()
+    {
+        Navigation.NavigateTo("/linechart");
+        await Task.Delay(DelayTime); // Wait for 10 seconds
+        Navigation.NavigateTo("/piechart");
+    }
+}

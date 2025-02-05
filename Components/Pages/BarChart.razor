@@ -1,0 +1,45 @@
+﻿@page "/barchart"
+@using BlazorBootstrap
+
+<h3>Test Bar Chart</h3>
+
+<BlazorBootstrap.BarChart @ref="barChart" Width="800" Height="400" Class="mb-4" />
+
+@code {
+    private BlazorBootstrap.BarChart? barChart;
+    private ChartData? chartData;
+    private BarChartOptions? barChartOptions;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && barChart is not null)
+        {
+            await LoadChartData();
+        }
+    }
+
+    private async Task LoadChartData()
+    {
+        chartData = new ChartData
+            {
+                Labels = new List<string> { "January", "February", "March", "April", "May" },
+                Datasets = new List<IChartDataset>
+            {
+                new BarChartDataset
+                {
+                    Label = "Sales",
+                    Data = new List<double?> { 10, 20, 30, 40, 50 },
+                    BackgroundColor = new List<string> { "#007bff", "#28a745", "#dc3545", "#ffc107", "#17a2b8" }
+                }
+            }
+            };
+
+        barChartOptions = new BarChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false
+            };
+
+        await barChart.InitializeAsync(chartData, barChartOptions);
+    }
+}

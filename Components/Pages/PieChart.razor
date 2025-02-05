@@ -1,0 +1,45 @@
+﻿@page "/piechart"
+@using BlazorBootstrap
+
+<h3>Test Pie Chart</h3>
+
+<BlazorBootstrap.PieChart @ref="pieChart" Width="400" Height="400" Class="mb-4" />
+
+@code {
+    private BlazorBootstrap.PieChart? pieChart;
+    private ChartData? chartData;
+    private PieChartOptions? pieChartOptions;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && pieChart is not null)
+        {
+            await LoadChartData();
+        }
+    }
+
+    private async Task LoadChartData()
+    {
+        chartData = new ChartData
+            {
+                Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple" },
+                Datasets = new List<IChartDataset>
+            {
+                new PieChartDataset
+                {
+                    Label = "Sales Distribution",
+                    Data = new List<double?> { 30, 25, 15, 20, 10 },
+                    BackgroundColor = new List<string> { "#ff6384", "#36a2eb", "#ffce56", "#4caf50", "#8e44ad" }
+                }
+            }
+            };
+
+        pieChartOptions = new PieChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false
+            };
+
+        await pieChart.InitializeAsync(chartData, pieChartOptions);
+    }
+}
