@@ -20,6 +20,16 @@
 
     private async Task LoadChartData()
     {
+        // Create random data between 0 and 50 for 5 segments
+        var random = new Random();
+        var data = new List<double?>();
+
+        // Generate random values between 0 and 50 for each pie slice
+        for (int i = 0; i < 5; i++)
+        {
+            data.Add(random.Next(0, 51)); // Random value between 0 and 50
+        }
+
         chartData = new ChartData
             {
                 Labels = new List<string> { "Red", "Blue", "Yellow", "Green", "Purple" },
@@ -28,7 +38,7 @@
                 new PieChartDataset
                 {
                     Label = "Sales Distribution",
-                    Data = new List<double?> { 30, 25, 15, 20, 10 },
+                    Data = data,
                     BackgroundColor = new List<string> { "#ff6384", "#36a2eb", "#ffce56", "#4caf50", "#8e44ad" }
                 }
             }
@@ -40,6 +50,7 @@
                 MaintainAspectRatio = false
             };
 
+        // Initialize chart with random data
         await pieChart.InitializeAsync(chartData, pieChartOptions);
     }
 }

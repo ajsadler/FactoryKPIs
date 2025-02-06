@@ -1,0 +1,72 @@
+﻿@page "/polarchart"
+@using BlazorBootstrap
+
+<h3>Test Polar Chart</h3>
+
+<BlazorBootstrap.PolarAreaChart @ref="polarChart" Width="400" Height="400" Class="mb-4" />
+
+@code {
+    private BlazorBootstrap.PolarAreaChart? polarChart;
+    private ChartData? chartData;
+    private PolarAreaChartOptions? polarChartOptions;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && polarChart is not null)
+        {
+            await LoadChartData();
+        }
+    }
+
+    private async Task LoadChartData()
+    {
+        // Create random data between 0 and 50 for 10 segments
+        var random = new Random();
+        var data = new List<double?>();
+
+        // Generate random values between 0 and 50 for each polar slice
+        for (int i = 0; i < 10; i++)
+        {
+            data.Add(random.Next(0, 51)); // Random value between 0 and 50
+        }
+
+        chartData = new ChartData
+            {
+                Labels = new List<string>
+            {
+                "Label 1", "Label 2", "Label 3", "Label 4", "Label 5",
+                "Label 6", "Label 7", "Label 8", "Label 9", "Label 10"
+            },
+                Datasets = new List<IChartDataset>
+            {
+                new PolarAreaChartDataset
+                {
+                    Label = "Category Distribution",
+                    Data = data,
+                    BackgroundColor = new List<string>
+                    {
+                        "rgba(31, 119, 180, 0.5)",  // Blue with 50% transparency
+                        "rgba(255, 127, 14, 0.5)",   // Orange with 50% transparency
+                        "rgba(140, 86, 75, 0.5)",    // Brown with 50% transparency
+                        "rgba(44, 160, 44, 0.5)",    // Green with 50% transparency
+                        "rgba(214, 39, 40, 0.5)",    // Red with 50% transparency
+                        "rgba(188, 189, 34, 0.5)",   // Lime with 50% transparency
+                        "rgba(148, 103, 189, 0.5)",  // Purple with 50% transparency
+                        "rgba(127, 127, 127, 0.5)",  // Gray with 50% transparency
+                        "rgba(23, 190, 207, 0.5)",    // Teal with 50% transparency
+                        "rgba(227, 119, 194, 0.5)",  // Pink with 50% transparency
+                    }
+                }
+            }
+            };
+
+        polarChartOptions = new PolarAreaChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false
+            };
+
+        // Initialize chart with random data
+        await polarChart.InitializeAsync(chartData, polarChartOptions);
+    }
+}

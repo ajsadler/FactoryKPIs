@@ -9,6 +9,7 @@
     private BlazorBootstrap.BarChart? barChart;
     private ChartData? chartData;
     private BarChartOptions? barChartOptions;
+    private const int TargetValue = 25; // Default target value
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -20,26 +21,62 @@
 
     private async Task LoadChartData()
     {
+        // Generate random data for the actual values
+        var random = new Random();
+        var actualData = new List<double?>();
+        var backgroundColors = new List<string>();
+
+        for (int i = 6; i <= 17; i++)  // 6 AM to 5 PM
+        {
+            double value = random.Next(1, 51);  // Random value between 1 and 50
+            actualData.Add(value);
+
+            // Color bars based on comparison to target value
+            backgroundColors.Add(value >= TargetValue ? "#28a745" : "#dc3545");  // Green if >= Target, Red if < Target
+        }
+
+        // Labels for the X-axis (hours from 6AM to 5PM)
+        var labels = new List<string>();
+        for (int i = 6; i <= 17; i++)
+        {
+            labels.Add($"{i}:00"); // 6AM, 7AM, ..., 5PM
+        }
+
+        // Create a list of the target value repeated for each time slot (same length as actual data)
+        var targetData = Enumerable.Repeat<double?>(TargetValue, actualData.Count).ToList();
+
+        // Set chart data and options
         chartData = new ChartData
-            {
-                Labels = new List<string> { "January", "February", "March", "April", "May" },
-                Datasets = new List<IChartDataset>
+        {
+            Labels = labels,  // Using string labels
+            Datasets = new List<IChartDataset>
             {
                 new BarChartDataset
                 {
-                    Label = "Sales",
-                    Data = new List<double?> { 10, 20, 30, 40, 50 },
-                    BackgroundColor = new List<string> { "#007bff", "#28a745", "#dc3545", "#ffc107", "#17a2b8" }
+                    Label = "Actual Data",
+                    Data = actualData,
+                    BackgroundColor = backgroundColors
+                },
+                new LineChartDataset  // Line dataset for the target
+                {
+                    Label = "Target",
+                    Data = targetData,
+                    BorderColor = "#007bff",  // Blue color for the line
+                    BorderWidth = 2,  // Line width
+                    Fill = false,  // Don't fill under the line
+                    Tension = 0.1  // Smoothness of the line
                 }
             }
-            };
+        };
 
+        // Configure chart options
         barChartOptions = new BarChartOptions
-            {
-                Responsive = true,
-                MaintainAspectRatio = false
-            };
+        {
+            Responsive = true,
+            MaintainAspectRatio = false
+        };
 
+        // Initialize the chart
         await barChart.InitializeAsync(chartData, barChartOptions);
     }
 }

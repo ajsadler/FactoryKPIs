@@ -1,0 +1,81 @@
+﻿@page "/radarchart"
+@using BlazorBootstrap
+
+<h3>Test Radar Chart</h3>
+
+<BlazorBootstrap.RadarChart @ref="radarChart" Width="400" Height="400" Class="mb-4" />
+
+@code {
+    private BlazorBootstrap.RadarChart? radarChart;
+    private ChartData? chartData;
+    private RadarChartOptions? radarChartOptions;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && radarChart is not null)
+        {
+            await LoadChartData();
+        }
+    }
+
+    private async Task LoadChartData()
+    {
+        // Create random data between 0 and 50 for 5 points in each of the 3 data groups
+        var random = new Random();
+        var dataGroup1 = new List<double?>();
+        var dataGroup2 = new List<double?>();
+        var dataGroup3 = new List<double?>();
+
+        // Generate random values between 0 and 50 for each data group
+        for (int i = 0; i < 5; i++)
+        {
+            dataGroup1.Add(random.Next(0, 51));
+            dataGroup2.Add(random.Next(0, 51));
+            dataGroup3.Add(random.Next(0, 51));
+        }
+
+        chartData = new ChartData
+            {
+                Labels = new List<string>
+            {
+                "Point 1", "Point 2", "Point 3", "Point 4", "Point 5"
+            },
+                Datasets = new List<IChartDataset>
+            {
+                new RadarChartDataset
+                {
+                    Label = "Data Group 1",
+                    Data = dataGroup1,
+                    BackgroundColor = "rgba(31, 119, 180, 0.5)", // Blue with 50% transparency
+                    BorderColor = "rgba(31, 119, 180, 1)", // Blue border
+                    BorderWidth = 2
+                },
+                new RadarChartDataset
+                {
+                    Label = "Data Group 2",
+                    Data = dataGroup2,
+                    BackgroundColor = "rgba(255, 127, 14, 0.5)", // Orange with 50% transparency
+                    BorderColor = "rgba(255, 127, 14, 1)", // Orange border
+                    BorderWidth = 2
+                },
+                new RadarChartDataset
+                {
+                    Label = "Data Group 3",
+                    Data = dataGroup3,
+                    BackgroundColor = "rgba(44, 160, 44, 0.5)", // Green with 50% transparency
+                    BorderColor = "rgba(44, 160, 44, 1)", // Green border
+                    BorderWidth = 2
+                }
+            }
+            };
+
+        radarChartOptions = new RadarChartOptions
+            {
+                Responsive = true,
+                MaintainAspectRatio = false
+            };
+
+        // Initialize chart with random data
+        await radarChart.InitializeAsync(chartData, radarChartOptions);
+    }
+}

@@ -12,6 +12,8 @@
     var barChartLink = $"{basePath}/barchart";
     var lineChartLink = $"{basePath}/linechart";
     var pieChartLink = $"{basePath}/piechart";
+    var polarChartLink = $"{basePath}/polarchart";
+    var radarChartLink = $"{basePath}/radarchart";
 }
 
 <div class="d-flex flex-column flex-md-row">
@@ -40,6 +42,16 @@
             <li class="nav-item">
                 <NavLink class="nav-link text-white fs-5" href="@pieChartLink">
                     <i class="bi bi-pie-chart icon" style="font-size: 1rem;"></i> Pie Chart
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-white fs-5" href="@polarChartLink">
+                    <i class="bi bi-compass icon" style="font-size: 1rem;"></i> Polar Chart
+                </NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="nav-link text-white fs-5" href="@radarChartLink">
+                    <i class="bi bi-radar icon" style="font-size: 1rem;"></i> Radar Chart
                 </NavLink>
             </li>
         </ul>

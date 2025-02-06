@@ -9,6 +9,7 @@
     private BlazorBootstrap.LineChart? lineChart;
     private ChartData? chartData;
     private LineChartOptions? lineChartOptions;
+    private const int TargetValue = 25; // Default target value
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -20,29 +21,61 @@
 
     private async Task LoadChartData()
     {
+        // Generate random data for the actual values
+        var random = new Random();
+        var actualData = new List<double?>();
+
+        for (int i = 6; i <= 17; i++)  // 6 AM to 5 PM
+        {
+            double value = random.Next(1, 51);  // Random value between 1 and 50
+            actualData.Add(value);
+        }
+
+        // Labels for the X-axis (hours from 6AM to 5PM)
+        var labels = new List<string>();
+        for (int i = 6; i <= 17; i++)
+        {
+            labels.Add($"{i}:00"); // 6AM, 7AM, ..., 5PM
+        }
+
+        // Create a list of the target value repeated for each time slot (same length as actual data)
+        var targetData = Enumerable.Repeat<double?>(TargetValue, actualData.Count).ToList();
+
+        // Set chart data and options
         chartData = new ChartData
-            {
-                Labels = new List<string> { "January", "February", "March", "April", "May" },
-                Datasets = new List<IChartDataset>
+        {
+            Labels = labels,  // Using string labels
+            Datasets = new List<IChartDataset>
             {
                 new LineChartDataset
                 {
-                    Label = "Revenue",
-                    Data = new List<double?> { 1000, 2000, 3000, 4000, 5000 },
-                    BorderColor = "#007bff",
-                    BackgroundColor = "rgba(0, 123, 255, 0.2)",
-                    Fill = true,
-                    BorderWidth = 2
+                    Label = "Actual Data",
+                    Data = actualData,
+                    BorderColor = "#28a745",  // Green color for the actual data line
+                    BorderWidth = 2,  // Line width
+                    Fill = false,  // Don't fill under the line
+                    Tension = 0.2  // Smoothness of the line
+                },
+                new LineChartDataset
+                {
+                    Label = "Target",
+                    Data = targetData,
+                    BorderColor = "#007bff",  // Blue color for the target line
+                    BorderWidth = 1,  // Line width
+                    Fill = false,  // Don't fill under the line
+                    Tension = 0.1  // Smoothness of the line
                 }
             }
-            };
+        };
 
+        // Configure chart options
         lineChartOptions = new LineChartOptions
-            {
-                Responsive = true,
-                MaintainAspectRatio = false
-            };
+        {
+            Responsive = true,
+            MaintainAspectRatio = false
+        };
 
+        // Initialize the chart
         await lineChart.InitializeAsync(chartData, lineChartOptions);
     }
 }

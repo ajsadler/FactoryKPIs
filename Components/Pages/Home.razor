@@ -4,36 +4,52 @@
 <PageTitle>Home</PageTitle>
 
 <div class="button-container">
-    <Button Class="btn btn-primary btn-lg" @onclick="NavigateBarLine">Slab Line</Button>
-    <Button Class="btn btn-success btn-lg" @onclick="NavigateBarPie">Door Leaf Line</Button>
-    <Button Class="btn btn-danger btn-lg" @onclick="NavigateLinePie">Frame Line</Button>
+    <Button Class="btn btn-primary btn-lg" @onclick="NavigateSlab">Slab Assembly</Button>
+    <Button Class="btn btn-success btn-lg" @onclick="NavigateDoor">Door Assembly</Button>
+    <Button Class="btn btn-danger btn-lg" @onclick="NavigateFrame">Frame Assembly</Button>
+    <Button Class="btn btn-warning btn-lg" @onclick="NavigateFinal">Final Assembly</Button>
 </div>
 
 @code {
     [Inject] NavigationManager Navigation { get; set; }
 
-    private const int DelayTime = 10000; // 10 seconds
+    private const int DelayTime = 10000; // Wait time variable in ms - 10 seconds
 
     private string BasePath => Navigation.BaseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
 
-    private async Task NavigateBarLine()
+    private async Task NavigateSlab()
     {
         Navigation.NavigateTo($"{BasePath}/barchart");
-        await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo($"{BasePath}/linechart");
+        await Task.Delay(DelayTime); // Wait
+        Navigation.NavigateTo($"{BasePath}/piechart");
+        await Task.Delay(DelayTime); // Wait
+        Navigation.NavigateTo($"{BasePath}/radarchart");
     }
 
-    private async Task NavigateBarPie()
+    private async Task NavigateDoor()
     {
-        Navigation.NavigateTo($"{BasePath}/barchart");
-        await Task.Delay(DelayTime); // Wait for 10 seconds
+        Navigation.NavigateTo($"{BasePath}/linechart");
+        await Task.Delay(DelayTime); // Wait
+        Navigation.NavigateTo($"{BasePath}/polarchart");
+        await Task.Delay(DelayTime); // Wait
         Navigation.NavigateTo($"{BasePath}/piechart");
     }
 
-    private async Task NavigateLinePie()
+    private async Task NavigateFrame()
     {
+        Navigation.NavigateTo($"{BasePath}/polarchart");
+        await Task.Delay(DelayTime); // Wait
+        Navigation.NavigateTo($"{BasePath}/barchart");
+        await Task.Delay(DelayTime); // Wait
         Navigation.NavigateTo($"{BasePath}/linechart");
-        await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo($"{BasePath}/piechart");
+    }
+
+    private async Task NavigateFinal()
+    {
+        Navigation.NavigateTo($"{BasePath}/radarchart");
+        await Task.Delay(DelayTime); // Wait
+        Navigation.NavigateTo($"{BasePath}/linechart");
+        await Task.Delay(DelayTime); // Wait
+        Navigation.NavigateTo($"{BasePath}/polarchart");
     }
 }
