@@ -16,23 +16,23 @@
 
     private async Task NavigateBarLine()
     {
-        Navigation.NavigateTo("/barchart"); // Directly use relative paths
+        Navigation.NavigateTo("/FactoryKPIs/barchart"); // Directly use relative paths
         await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo("/linechart");
+        Navigation.NavigateTo("/FactoryKPIs/linechart");
     }
 
     private async Task NavigateBarPie()
     {
-        Navigation.NavigateTo("/barchart");
+        Navigation.NavigateTo("/FactoryKPIs/barchart");
         await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo("/piechart");
+        Navigation.NavigateTo("/FactoryKPIs/piechart");
     }
 
     private async Task NavigateLinePie()
     {
-        Navigation.NavigateTo("/linechart");
+        Navigation.NavigateTo("/FactoryKPIs/linechart");
         await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo("/piechart");
+        Navigation.NavigateTo("/FactoryKPIs/piechart");
     }
 }
 
