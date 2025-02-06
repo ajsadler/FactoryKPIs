@@ -1,4 +1,4 @@
-using FactoryKPIs4.Components;
+using FactoryKPIs.Components;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.DataProtection;
 using System.IO;
