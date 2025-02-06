@@ -1,4 +1,7 @@
 using FactoryKPIs4.Components;
+using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.DataProtection;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +10,20 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddBlazorBootstrap();
+
+builder.Services.AddAntiforgery(options =>
+{
+    // Suppress the anti-forgery token globally in development for debugging
+    options.SuppressXFrameOptionsHeader = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Disable secure cookie policy for local testing
+});
+
+// Persist Data Protection Keys
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"C:\inetpub\wwwroot\FactoryKPIs\Keys"))
+    .SetApplicationName("FactoryKPIs");
+
+builder.Services.AddAntiforgery(options => options.SuppressXFrameOptionsHeader = true);
 
 var app = builder.Build();
 

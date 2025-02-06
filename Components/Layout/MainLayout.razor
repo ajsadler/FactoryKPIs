@@ -1,31 +1,44 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager Navigation
+
+@{
+    var baseUri = Navigation.BaseUri;
+    // Assuming the app is hosted under '/FactoryKPIs' on the server, you can extract that
+    var basePath = baseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
+
+    // Precompute the links with the base path
+    var homeLink = $"{basePath}/";
+    var barChartLink = $"{basePath}/barchart";
+    var lineChartLink = $"{basePath}/linechart";
+    var pieChartLink = $"{basePath}/piechart";
+}
+
 <div class="d-flex flex-column flex-md-row">
     <div class="text-white p-3 sidebar" style="background-color: rgb(50, 86, 111); width: 250px; height: 100vh; position: relative;">
         <div class="text-center mb-4">
-            <img src="icon.png" alt="App Logo" style="max-width: 100%; height: auto;" />
+            <img src="@($"{basePath}/icon.png")" alt="App Logo" style="max-width: 100%; height: auto;" />
         </div>
 
-        @* <h3 class="text-center" style="font-size: 1.75rem;">Factory KPIs</h3> *@
 
         <ul class="nav flex-column">
             <li class="nav-item">
-                <NavLink class="nav-link text-white fs-5" href="/">
+                <NavLink class="nav-link text-white fs-5" href="@homeLink">
                     <i class="bi bi-house-door icon" style="font-size: 1rem;"></i> Home
                 </NavLink>
             </li>
             <li class="nav-item">
-                <NavLink class="nav-link text-white fs-5" href="/barchart">
+                <NavLink class="nav-link text-white fs-5" href="@barChartLink">
                     <i class="bi bi-bar-chart-line icon" style="font-size: 1rem;"></i> Bar Chart
                 </NavLink>
             </li>
             <li class="nav-item">
-                <NavLink class="nav-link text-white fs-5" href="/linechart">
+                <NavLink class="nav-link text-white fs-5" href="@lineChartLink">
                     <i class="bi bi-graph-up icon" style="font-size: 1rem;"></i> Line Chart
                 </NavLink>
             </li>
             <li class="nav-item">
-                <NavLink class="nav-link text-white fs-5" href="/piechart">
+                <NavLink class="nav-link text-white fs-5" href="@pieChartLink">
                     <i class="bi bi-pie-chart icon" style="font-size: 1rem;"></i> Pie Chart
                 </NavLink>
             </li>
@@ -75,8 +88,6 @@
 </style>
 
 @code {
-    [Inject] NavigationManager Navigation { get; set; }
-
     private void StopCycling()
     {
         Navigation.NavigateTo(Navigation.Uri, forceLoad: true);

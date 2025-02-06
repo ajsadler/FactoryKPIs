@@ -3,8 +3,6 @@
 
 <PageTitle>Home</PageTitle>
 
-@* <h1>Welcome to Your New App</h1> *@
-
 <div class="button-container">
     <Button Class="btn btn-primary btn-lg" @onclick="NavigateBarLine">Slab Line</Button>
     <Button Class="btn btn-success btn-lg" @onclick="NavigateBarPie">Door Leaf Line</Button>
@@ -18,7 +16,7 @@
 
     private async Task NavigateBarLine()
     {
-        Navigation.NavigateTo("/barchart");
+        Navigation.NavigateTo("/barchart"); // Directly use relative paths
         await Task.Delay(DelayTime); // Wait for 10 seconds
         Navigation.NavigateTo("/linechart");
     }
@@ -37,3 +35,4 @@
         Navigation.NavigateTo("/piechart");
     }
 }
+
