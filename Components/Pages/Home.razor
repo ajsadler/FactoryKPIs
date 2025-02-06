@@ -14,25 +14,26 @@
 
     private const int DelayTime = 10000; // 10 seconds
 
+    private string BasePath => Navigation.BaseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
+
     private async Task NavigateBarLine()
     {
-        Navigation.NavigateTo("/FactoryKPIs/barchart"); // Directly use relative paths
+        Navigation.NavigateTo($"{BasePath}/barchart");
         await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo("/FactoryKPIs/linechart");
+        Navigation.NavigateTo($"{BasePath}/linechart");
     }
 
     private async Task NavigateBarPie()
     {
-        Navigation.NavigateTo("/FactoryKPIs/barchart");
+        Navigation.NavigateTo($"{BasePath}/barchart");
         await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo("/FactoryKPIs/piechart");
+        Navigation.NavigateTo($"{BasePath}/piechart");
     }
 
     private async Task NavigateLinePie()
     {
-        Navigation.NavigateTo("/FactoryKPIs/linechart");
+        Navigation.NavigateTo($"{BasePath}/linechart");
         await Task.Delay(DelayTime); // Wait for 10 seconds
-        Navigation.NavigateTo("/FactoryKPIs/piechart");
+        Navigation.NavigateTo($"{BasePath}/piechart");
     }
 }
-
