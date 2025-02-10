@@ -1,9 +1,9 @@
 using FactoryKPIs.Components;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.DataProtection;
-using System.IO;
+using FactoryKPIs.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -11,19 +11,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddBlazorBootstrap();
 
-builder.Services.AddAntiforgery(options =>
-{
-    // Suppress the anti-forgery token globally in development for debugging
-    options.SuppressXFrameOptionsHeader = true;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Disable secure cookie policy for local testing
-});
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
-// Persist Data Protection Keys
-builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"C:\inetpub\wwwroot\FactoryKPIs\Keys"))
-    .SetApplicationName("FactoryKPIs");
-
-builder.Services.AddAntiforgery(options => options.SuppressXFrameOptionsHeader = true);
+builder.Services.AddScoped<ProductionOrderService>();
 
 var app = builder.Build();
 
@@ -36,7 +27,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 

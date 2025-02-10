@@ -1,0 +1,55 @@
+﻿@page "/productionorder"
+@using FactoryKPIs.Data
+@inject ProductionOrderService ProductionOrderService
+
+<h3>Production Orders</h3>
+
+@if (ProductionOrders == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>IdNo</th>
+                <th>OrderNo</th>
+                <th>OrderPos</th>
+                <th>Material</th>
+                <th>Material Description</th>
+                <th>Production Program</th>
+                <th>Production Program Id</th>
+                <th>Update Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in ProductionOrders)
+            {
+                <tr>
+                    <td>@order.IdNo</td>
+                    <td>@order.OrderNo</td>
+                    <td>@order.OrderPos</td>
+                    <td>@order.Material</td>
+                    <td>@order.MaterialDescription</td>
+                    <td>@order.ProductionProgram</td>
+                    <td>@order.ProductionProgramIdNo</td>
+                    <td>@order.UpdateTs</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ProductionOrder>? ProductionOrders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var orders = await ProductionOrderService.GetProductionOrdersAsync();
+        ProductionOrders = orders.OrderByDescending(o => o.UpdateTs)
+                                 .Take(50)
+                                 .ToList();
+    }
+
+}
