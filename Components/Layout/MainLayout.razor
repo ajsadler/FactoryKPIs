@@ -1,6 +1,7 @@
-﻿@inherits LayoutComponentBase
-
+﻿@using FactoryKPIs.Services
+@inherits LayoutComponentBase
 @inject NavigationManager Navigation
+@inject NavigationCycleService NavigationCycleService
 
 @{
     var baseUri = Navigation.BaseUri;
@@ -18,11 +19,11 @@
 }
 
 <div class="d-flex flex-column flex-md-row">
-    <div class="text-white p-3 sidebar" style="background-color: rgb(50, 86, 111); width: 250px; height: 100vh; position: relative;">
+    <!-- Fixed Sidebar -->
+    <div class="text-white p-3 sidebar" style="background-color: rgb(50, 86, 111); width: 250px; height: 100vh; position: fixed; top: 0; left: 0;">
         <div class="text-center mb-4">
             <img src="@($"{basePath}/icon.png")" alt="App Logo" style="max-width: 100%; height: auto;" />
         </div>
-
 
         <ul class="nav flex-column">
             <li class="nav-item">
@@ -57,7 +58,7 @@
             </li>
             <li class="nav-item">
                 <NavLink class="nav-link text-white fs-5" href="@productionOrderLink">
-                    <i class="bi bi-database icon" style="font-size: 1rem;"></i> Production Orders
+                    <i class="bi bi-database icon" style="font-size: 1rem;"></i> Production
                 </NavLink>
             </li>
         </ul>
@@ -69,8 +70,8 @@
         </div>
     </div>
 
-    <!-- Main Content Area -->
-    <div class="flex-grow-1 p-4">
+    <!-- Main Content Area with margin to the left so it doesn't overlap the fixed sidebar -->
+    <div class="flex-grow-1 p-4" style="margin-left: 250px;">
         @Body
     </div>
 </div>
@@ -96,14 +97,14 @@
         border: 2px solid white;
     }
 
-    .nav-item .nav-link.active {
-        background-color: rgb(0, 161, 255) !important; /* Same as hover color */
-        font-weight: bold;
-        border-color: white;
-    }
+        .nav-item .nav-link.active {
+            background-color: rgb(0, 161, 255) !important;
+            font-weight: bold;
+            border-color: white;
+        }
 
     .nav-link:hover {
-        background-color: rgb(0, 161, 255);
+        background-color: rgb(20, 20, 20);
     }
 
     .nav-link, .nav-link:hover {
@@ -114,6 +115,6 @@
 @code {
     private void StopCycling()
     {
-        Navigation.NavigateTo(Navigation.Uri, forceLoad: true);
+        NavigationCycleService.StopCycle();
     }
 }

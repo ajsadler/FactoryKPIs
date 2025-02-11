@@ -1,5 +1,6 @@
 using FactoryKPIs.Components;
 using FactoryKPIs.Data;
+using FactoryKPIs.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<ProductionOrderService>();
+builder.Services.AddScoped<NavigationCycleService>();
 
 var app = builder.Build();
 

@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Components
+@using FactoryKPIs.Services
 
 <PageTitle>Home</PageTitle>
 
@@ -11,45 +12,54 @@
 </div>
 
 @code {
-    [Inject] NavigationManager Navigation { get; set; }
+    [Inject] public NavigationManager Navigation { get; set; } = default!;
+    [Inject] public NavigationCycleService NavigationCycleService { get; set; } = default!;
 
-    private const int DelayTime = 10000; // Wait time variable in ms - 10 seconds
+    private const int DelayTime = 10000; // 10 seconds
 
     private string BasePath => Navigation.BaseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
 
-    private async Task NavigateSlab()
+    private void NavigateSlab()
     {
-        Navigation.NavigateTo($"{BasePath}/barchart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/piechart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/radarchart");
+        string[] urls = new[]
+        {
+            $"{BasePath}/barchart",
+            $"{BasePath}/piechart",
+            $"{BasePath}/radarchart"
+        };
+        NavigationCycleService.StartCycle(urls, DelayTime);
     }
 
-    private async Task NavigateDoor()
+    private void NavigateDoor()
     {
-        Navigation.NavigateTo($"{BasePath}/linechart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/polarchart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/piechart");
+        string[] urls = new[]
+        {
+            $"{BasePath}/linechart",
+            $"{BasePath}/polarchart",
+            $"{BasePath}/piechart"
+        };
+        NavigationCycleService.StartCycle(urls, DelayTime);
     }
 
-    private async Task NavigateFrame()
+    private void NavigateFrame()
     {
-        Navigation.NavigateTo($"{BasePath}/polarchart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/barchart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/linechart");
+        string[] urls = new[]
+        {
+            $"{BasePath}/polarchart",
+            $"{BasePath}/barchart",
+            $"{BasePath}/linechart"
+        };
+        NavigationCycleService.StartCycle(urls, DelayTime);
     }
 
-    private async Task NavigateFinal()
+    private void NavigateFinal()
     {
-        Navigation.NavigateTo($"{BasePath}/radarchart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/linechart");
-        await Task.Delay(DelayTime); // Wait
-        Navigation.NavigateTo($"{BasePath}/polarchart");
+        string[] urls = new[]
+        {
+            $"{BasePath}/radarchart",
+            $"{BasePath}/linechart",
+            $"{BasePath}/polarchart"
+        };
+        NavigationCycleService.StartCycle(urls, DelayTime);
     }
 }
