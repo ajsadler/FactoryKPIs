@@ -3,12 +3,13 @@
 @inject NavigationManager Navigation
 @inject NavigationCycleService NavigationCycleService
 
-@{
-    var baseUri = Navigation.BaseUri;
-    // Assuming the app is hosted under '/FactoryKPIs' on the server, you can extract that
-    var basePath = baseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
+@* FactoryKPIs.Services is needed because this uses the NavigationCycleService *@
+@* The NavigationCycleService is needed because it defines the function for page cycling *@
 
-    // Precompute the links with the base path
+@{
+    // These navigation paths seem to be needed so that navigation works correctly on both development and production
+    var baseUri = Navigation.BaseUri;    
+    var basePath = baseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
     var homeLink = $"{basePath}/";
     var barChartLink = $"{basePath}/barchart";
     var lineChartLink = $"{basePath}/linechart";
@@ -19,12 +20,15 @@
 }
 
 <div class="d-flex flex-column flex-md-row">
-    <!-- Fixed Sidebar -->
+
+    @* Sidebar colour and logo *@
     <div class="text-white p-3 sidebar" style="background-color: rgb(50, 86, 111); width: 250px; height: 100vh; position: fixed; top: 0; left: 0;">
         <div class="text-center mb-4">
             <img src="@($"{basePath}/icon.png")" alt="App Logo" style="max-width: 100%; height: auto;" />
         </div>
 
+        @* Nav menu links. The home link has Match="NavLinkMatch.All" so that it isn't always highlighted once you navigate to a sub-page *@
+        @* More documentation on the icons available to use: https://demos.blazorbootstrap.com/icons *@
         <ul class="nav flex-column">
             <li class="nav-item">
                 <NavLink class="nav-link text-white fs-5" href="@homeLink" Match="NavLinkMatch.All">
@@ -63,6 +67,7 @@
             </li>
         </ul>
 
+        @* The 'Stop Page Cycling' button, fixed to the bottom of the nav menu *@
         <div class="mt-auto">
             <Button Class="btn btn-danger w-100" @onclick="StopCycling">
                 <i class="bi bi-stop-circle"></i> Stop Page Cycling
@@ -70,12 +75,13 @@
         </div>
     </div>
 
-    <!-- Main Content Area with margin to the left so it doesn't overlap the fixed sidebar -->
+    @* Main Content Area with margin to the left so it doesn't overlap the fixed sidebar *@
     <div class="flex-grow-1 p-4" style="margin-left: 250px;">
         @Body
     </div>
 </div>
 
+@* Some css style specifically for the nav menu only *@
 <style>
     .sidebar {
         display: flex;

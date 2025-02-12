@@ -4,6 +4,7 @@
 
 <PageTitle>Home</PageTitle>
 
+@* Main buttons on the homepage. More documentation on the button class: https://demos.blazorbootstrap.com/buttons *@
 <div class="button-container">
     <Button Class="btn btn-primary btn-lg" @onclick="NavigateSlab">Slab Assembly</Button>
     <Button Class="btn btn-success btn-lg" @onclick="NavigateDoor">Door Assembly</Button>
@@ -15,8 +16,9 @@
     [Inject] public NavigationManager Navigation { get; set; } = default!;
     [Inject] public NavigationCycleService NavigationCycleService { get; set; } = default!;
 
-    private const int DelayTime = 10000; // 10 seconds
+    private const int DelayTime = 10000; // Variable for the page cycle delay in milliseconds
 
+    // These navigation paths seem to be needed so that navigation works correctly on both development and production
     private string BasePath => Navigation.BaseUri.Contains("/FactoryKPIs") ? "/FactoryKPIs" : string.Empty;
 
     private void NavigateSlab()

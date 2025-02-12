@@ -13,7 +13,7 @@ namespace FactoryKPIs.Services
 
         public void StartCycle(string[] urls, int delayTime)
         {
-            StopCycle(); // stop any existing cycle
+            StopCycle(); // Stop any existing cycle
             _urls = urls;
             _delayTime = delayTime;
             _currentIndex = 0;

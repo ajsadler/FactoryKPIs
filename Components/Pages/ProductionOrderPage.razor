@@ -46,6 +46,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        // Get the 50 most recent orders by UpdateTs datetime and order them in descending order
         var orders = await ProductionOrderService.GetProductionOrdersAsync();
         ProductionOrders = orders.OrderByDescending(o => o.UpdateTs)
                                  .Take(50)
