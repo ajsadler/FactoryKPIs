@@ -35,24 +35,24 @@ It displays real-time KPIs and cycles through different chart types automaticall
 - The repo owner can then review the changes and merge the branch into the Master repo
 
 # Files
-.gitignore - Which files and folders to ignore when commiting to GitHub
-appsettings.json - Defines the connection string to the database. This is included in .gitignore because it contains the database credentials
-wwwroot/
-	app.css - Controls css for the whole site
-Components/
-	Layout/
-		MainLayout.razor - Sidebar design
-	Pages/
-		_Host.cshtml - Entry point for the Blazor Server app, it acts as the main host page that loads the Blazor application
-		Error.razor - Error page
-		Home.razor - Home page
-	_Imports.razor - Simplifies namespace use throughout the app, without needing to specify these on each Razor component
-	App.razor - Along with _Host.cshtml, serves as the entry point for the Blazor Server app, responsible for initialising and rendering the Blazor application
-	Routes.razor - Handles navigation and layout
-Data/
-	ApplicationDbContext.cs - Defines a class for the database context, bridging the SQL database to C#
-	*Database*.cs - Defines which columns to pull from the table and what datatype to format them as
-	*Database*Service.cs - Defines functions to act as a data access layer to fetch the data from the *Database*
-Services/
-	NavigationCycleService.cs - Defines a set of functions to cycle through pages from the Home page
-Program.cs - Entry point in ASP.NET Core, defining services, middleware and routing for the web app
+- .gitignore - Which files and folders to ignore when commiting to GitHub
+- appsettings.json - Defines the connection string to the database. This is included in .gitignore because it contains the database credentials
+- wwwroot/
+ 	- app.css - Controls css for the whole site
+- Components/
+ 	- Layout/
+		- MainLayout.razor - Sidebar design
+	- Pages/
+ 		- _Host.cshtml - Entry point for the Blazor Server app, it acts as the main host page that loads the Blazor application
+		- Error.razor - Error page
+		- Home.razor - Home page
+	- _Imports.razor - Simplifies namespace use throughout the app, without needing to specify these on each Razor component
+	- App.razor - Along with _Host.cshtml, serves as the entry point for the Blazor Server app, responsible for initialising and rendering the Blazor application
+	- Routes.razor - Handles navigation and layout
+- Data/
+	- ApplicationDbContext.cs - Defines a class for the database context, bridging the SQL database to C#
+	- *Database*.cs - Defines which columns to pull from the table and what datatype to format them as
+	- *Database*Service.cs - Defines functions to act as a data access layer to fetch the data from the *Database*
+- Services/
+	- NavigationCycleService.cs - Defines a set of functions to cycle through pages from the Home page
+- Program.cs - Entry point in ASP.NET Core, defining services, middleware and routing for the web app
