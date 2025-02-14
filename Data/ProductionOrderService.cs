@@ -13,7 +13,11 @@ namespace FactoryKPIs.Data
 
         public async Task<List<ProductionOrder>> GetProductionOrdersAsync()
         {
-            return await _context.ProductionOrders.ToListAsync();
+            var today = DateTime.UtcNow.Date; // Get today's date (UTC)
+
+            return await _context.ProductionOrders
+                .Where(po => po.UpdateTs >= today && po.UpdateTs < today.AddDays(1)) // Only fetch today's data
+                .ToListAsync();
         }
     }
 }

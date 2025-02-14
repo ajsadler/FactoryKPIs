@@ -22,10 +22,11 @@ It displays real-time KPIs and cycles through different chart types automaticall
 - All versions of the repo are stored here: https://github.com/ajsadler/FactoryKPIs
 	- This repo has full version history of changes, and can be used to rollback files when needed
 - To add to the repo, you will firstly need to clone the Master repo
-- Open a terminal
+- Open a terminal (Powershell, Git Bash)
 - cd path/to/your/folder where you want to store the project
 - git clone https://github.com/ajsadler/FactoryKPIs.git
 - cd FactoryKPIs
+- You will require the appsettings.json from the T: drive version of the repo, as it is not published to GitHub - it contains the connection string for the GBBLWAS002 SQL server
 - Then you will need to create a new branch of the repo, in order to work on a new feature or fix without affecting the Master branch
 - git checkout -b new-branch-name (tip: name the branch relating to the feature or fix that you are working on, so it's easily identified)
 - After working on your new branch, you will need to push the changes back to GitHub
@@ -44,8 +45,8 @@ It displays real-time KPIs and cycles through different chart types automaticall
 		- MainLayout.razor - Sidebar design
 	- Pages/
  		- _Host.cshtml - Entry point for the Blazor Server app, it acts as the main host page that loads the Blazor application
-		- Error.razor - Error page
-		- Home.razor - Home page
+		- Error.razor - Handles any errors on the ASP.NET Core environment
+		- Home.razor - Loaded by _Host.cshtml and displays the content for the home page
 	- _Imports.razor - Simplifies namespace use throughout the app, without needing to specify these on each Razor component
 	- App.razor - Along with _Host.cshtml, serves as the entry point for the Blazor Server app, responsible for initialising and rendering the Blazor application
 	- Routes.razor - Handles navigation and layout
